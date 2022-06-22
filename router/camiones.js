@@ -1,17 +1,22 @@
 const express = require("express");
-const { Camion, Camionero } = require("../database/models/models");
+const { models } = require("../database/models/models");
 
+
+const model = models.Camion
 const router = express.Router();
 
 
 router.get("/", (req, res) => {
-    Camion.findAll({
-        attributes:["matricula"]
+    model.findAll({
+        attributes: ["matricula"],
+        include: {
+            association: 'camioneros'
+        }
     }).then((list) => {
-      res.json(list);
+        res.json(list);
     });
-  });
-  
+});
+
 
 
 module.exports = router;
